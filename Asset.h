@@ -2,6 +2,7 @@
 #define ASSET_H
 
 #include <string>
+#include <iostream>
 
 class Asset {
 protected:
@@ -11,18 +12,16 @@ protected:
     double purchasePrice;
 
 public:
-    Asset(std::string n, double p, int q, double pp)
-        : name(n), price(p), quantity(q), purchasePrice(pp) {}
-
+    Asset(std::string name, double price, int quantity);
+    virtual void buy(int q, double p) = 0;
+    virtual bool sell(int q, double p) = 0;
+    virtual double getValue() const;
+    void display() const;
+    void display(std::ostream& out) const;
+    std::string getName() const;
+    int getQuantity() const;
+    double getPrice() const;
     virtual ~Asset() {}
-
-    virtual double getValue() const = 0; // Pure virtual function
-    virtual void buy(int q, double price) = 0; // Pure virtual function
-    virtual void sell(int q, double price) = 0; // Pure virtual function
-    virtual double calculateProfitLoss() const = 0; // Pure virtual function
-
-    std::string getName() const { return name; }
-    int getQuantity() const { return quantity; }
 };
 
 #endif

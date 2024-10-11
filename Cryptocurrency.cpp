@@ -1,24 +1,18 @@
 #include "Cryptocurrency.h"
-#include <iostream>
 
-double Cryptocurrency::getValue() const {
-    return price * quantity;
-}
+Cryptocurrency::Cryptocurrency(std::string n, double p, int q) : Asset(n, p, q) {}
 
 void Cryptocurrency::buy(int q, double p) {
     quantity += q;
     price = p;
 }
 
-void Cryptocurrency::sell(int q, double p) {
-    if (q <= quantity) {
-        quantity -= q;
-        price = p;
+bool Cryptocurrency::sell(int quantity, double price) {
+    if (this->quantity >= quantity) {
+        this->quantity -= quantity;
+        this->price = price;
+        return true;
     } else {
-        std::cout << "Not enough cryptocurrency to sell!\n";
+        return false;
     }
-}
-
-double Cryptocurrency::calculateProfitLoss() const {
-    return (price - purchasePrice) * quantity;
 }

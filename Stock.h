@@ -5,12 +5,9 @@
 
 class Stock : public Asset {
 public:
-    Stock(std::string n, double p, int q) : Asset(n, p, q, p) {}
-
-    double getValue() const override;
-    void buy(int q, double price) override;
-    void sell(int q, double price) override;
-    double calculateProfitLoss() const override;
+    Stock(std::string n, double p, int q);
+    void buy(int q, double p) override;
+    bool sell(int quantity, double price) override;
 };
 
 #endif

@@ -1,24 +1,18 @@
 #include "Stock.h"
-#include <iostream>
 
-double Stock::getValue() const {
-    return price * quantity;
-}
+Stock::Stock(std::string n, double p, int q) : Asset(n, p, q) {}
 
 void Stock::buy(int q, double p) {
     quantity += q;
     price = p;
 }
 
-void Stock::sell(int q, double p) {
-    if (q <= quantity) {
-        quantity -= q;
-        price = p;
+bool Stock::sell(int quantity, double price) {
+    if (this->quantity >= quantity) {
+        this->quantity -= quantity;
+        this->price = price;
+        return true;
     } else {
-        std::cout << "Not enough stock to sell!\n";
+        return false;
     }
-}
-
-double Stock::calculateProfitLoss() const {
-    return (price - purchasePrice) * quantity;
 }
