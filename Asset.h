@@ -1,10 +1,21 @@
-#ifndef ASSET_H  // Prevents multiple inclusions of this header file
+/**
+ * @brief Prevents multiple inclusions of this header file
+ */
+#ifndef ASSET_H 
 #define ASSET_H
 
-#include <string>    // For std::string
-#include <iostream>  // For input/output operations
+/**
+ * @brief For std::string
+ */
+#include <string>
+/**
+ * @brief For input/output operations
+ */
+#include <iostream>
 
-// Base class representing a financial asset
+/**
+ * @brief Base class representing a financial asset
+ */
 class Asset {
 protected:
     std::string name;         // Name of the asset
@@ -13,29 +24,43 @@ protected:
     double purchasePrice;     // Initial purchase price
 
 public:
-    // Constructor to initialize asset details
+    /**
+    * @brief Constructor to initialize asset details
+    */
     Asset(std::string name, double price, int quantity);
 
-    // Virtual functions to be implemented by derived classes
+    /**
+    * @brief Virtual functions to be implemented by derived classes
+    */
     virtual void buy(int q, double p) = 0;   // Buy asset
     virtual bool sell(int q, double p) = 0;  // Sell asset
 
-    // Returns the total value of the asset (price * quantity)
+    /**
+    * @brief Returns the total value of the asset (price * quantity)
+    */
     virtual double getValue() const;
 
-    // Display asset details (prints to console)
+    /**
+    * @brief Display asset details (prints to console)
+    */
     void display() const;
     void display(std::ostream& out) const;  // Display to a specific output stream
 
-    // Method to calculate profit or loss
+    /**
+    * @brief Method to calculate profit or loss
+    */
     virtual double calculateProfitLoss() const = 0;  // Pure virtual function
 
-    // Getters for asset attributes
+    /**
+    * @brief Getters for asset attributes
+    */
     std::string getName() const;
     int getQuantity() const;
     double getPrice() const;
 
-    // Virtual destructor for cleanup
+    /**
+    * @brief Virtual destructor for cleanup
+    */
     virtual ~Asset() {}
 };
 
