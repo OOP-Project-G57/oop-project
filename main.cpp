@@ -4,6 +4,16 @@
 #include "PortfolioManager.cpp"
 #include "Transaction.cpp"
 #include "FileManager.cpp"
+#include <chrono>
+#include <thread>
+
+#define RESET   "\033[0m"
+#define RED     "\033[31m"
+#define GREEN   "\033[32m"
+#define YELLOW  "\033[33m"
+#define BLUE    "\033[34m"
+#define MAGENTA "\033[35m"
+#define CYAN    "\033[36m"
 
 using namespace std;
 
@@ -98,18 +108,29 @@ int main() {
     return 0;
 }
 
-// Function to display the menu options
+
+void slowPrint(const std::string& str, unsigned int millis_per_char) {
+    for (const char c : str) {
+        std::cout << c;
+        std::this_thread::sleep_for(std::chrono::milliseconds(millis_per_char));
+    }
+}
+
 void displayMenu() {
-    cout << "\n--- Portfolio Manager Menu ---\n";
-    cout << "1. Add an asset\n";
-    cout << "2. Buy/Sell an asset\n";
-    cout << "3. View portfolio\n";
-    cout << "4. View portfolio graph\n";
-    cout << "5. View transaction log\n";
-    cout << "6. Save portfolio and transaction log\n";
-    cout << "7. Load portfolio and transaction log\n";
-    cout << "0. Exit\n";
-    cout << "Enter your choice: ";
+    unsigned int fastSpeed = 2; // Speed up the animation by reducing delay
+    slowPrint(BLUE "╔══════════════════════════════╗\n", fastSpeed);
+    slowPrint(CYAN "║       Portfolio Manager      ║\n", fastSpeed);
+    slowPrint(BLUE "╠══════════════════════════════╣\n", fastSpeed);
+    slowPrint(GREEN "║ 1. Add an Asset              ║\n", fastSpeed);
+    slowPrint(GREEN "║ 2. Buy/Sell an Asset         ║\n", fastSpeed);
+    slowPrint(GREEN "║ 3. View Portfolio            ║\n", fastSpeed);
+    slowPrint(GREEN "║ 4. View Portfolio Graph      ║\n", fastSpeed);
+    slowPrint(GREEN "║ 5. View Transaction Log      ║\n", fastSpeed);  // Added missing option
+    slowPrint(GREEN "║ 6. Save Portfolio            ║\n", fastSpeed);
+    slowPrint(GREEN "║ 7. Load Portfolio            ║\n", fastSpeed);
+    slowPrint(RED "║ 0. Exit                      ║\n", fastSpeed);
+    slowPrint(BLUE "╚══════════════════════════════╝\n", fastSpeed);
+    std::cout << RESET;
 }
 
 // Function to add an asset to the portfolio
@@ -218,4 +239,3 @@ void loadData(PortfolioManager& manager, TransactionLog& log, FileManager& fileM
     fileManager.loadTransactionLog(log, transactionFile);
     cout << "Data loaded successfully.\n";
 }
-
