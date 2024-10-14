@@ -220,22 +220,40 @@ void viewTransactionLog(TransactionLog& log) {
     log.displayLog();
 }
 
+// Function to display a progress bar
+void showProgressBar(const std::string& task) {
+    std::cout << task << " [" << std::flush;
+    for (int i = 0; i < 10; ++i) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));  // Adjust speed here if needed
+        std::cout << "-" << std::flush;
+    }
+    std::cout << "] Done!" << std::endl;
+}
+
 // Function to save portfolio and transaction log
 void saveData(PortfolioManager& manager, TransactionLog& log, FileManager& fileManager, const std::string& username) {
-    string portfolioFile = username + "_portfolio.txt";
-    string transactionFile = username + "_transactions.txt";
+    std::string portfolioFile = username + "_portfolio.txt";
+    std::string transactionFile = username + "_transactions.txt";
 
+    showProgressBar("Saving Portfolio");  // Display progress bar for saving portfolio
     fileManager.savePortfolio(manager, portfolioFile);
+
+    showProgressBar("Saving Transaction Log");  // Display progress bar for saving transaction log
     fileManager.saveTransactionLog(log, transactionFile);
-    cout << "Data saved successfully.\n";
+
+    std::cout << "Data saved successfully." << std::endl;
 }
 
 // Function to load portfolio and transaction log
 void loadData(PortfolioManager& manager, TransactionLog& log, FileManager& fileManager, const std::string& username) {
-    string portfolioFile = username + "_portfolio.txt";
-    string transactionFile = username + "_transactions.txt";
+    std::string portfolioFile = username + "_portfolio.txt";
+    std::string transactionFile = username + "_transactions.txt";
 
+    showProgressBar("Loading Portfolio");  // Display progress bar for loading portfolio
     fileManager.loadPortfolio(manager, portfolioFile);
+
+    showProgressBar("Loading Transaction Log");  // Display progress bar for loading transaction log
     fileManager.loadTransactionLog(log, transactionFile);
-    cout << "Data loaded successfully.\n";
+
+    std::cout << "Data loaded successfully." << std::endl;
 }
