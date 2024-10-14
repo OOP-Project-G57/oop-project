@@ -4,6 +4,7 @@
 #include "PortfolioManager.cpp"
 #include "Transaction.cpp"
 #include "FileManager.cpp"
+#include "debug.h"
 #include <chrono>
 #include <thread>
 
@@ -25,6 +26,8 @@ void saveData(PortfolioManager& manager, TransactionLog& log, FileManager& fileM
 void loadData(PortfolioManager& manager, TransactionLog& log, FileManager& fileManager, const std::string& username);
 void viewPortfolio(PortfolioManager& manager);
 void viewTransactionLog(TransactionLog& log);
+void slowPrint(const std::string& str, unsigned int millis_per_char);
+void clearScreen();
 
 int main() {
     User user;
@@ -32,8 +35,15 @@ int main() {
     char choice;
 
     // User login or registration
-    cout << "Welcome to the Financial Portfolio Management System\n";
-    cout << "Do you have an account? (y/n): ";
+   // ASCII Art for Title
+    clearScreen();
+    slowPrint(CYAN "\n╔════════════════════════════════════════════════════════╗\n", 1);
+    slowPrint(CYAN "║          WELCOME TO THE FINANCIAL PORTFOLIO MANAGER    ║\n", 1);
+    slowPrint(CYAN "╚════════════════════════════════════════════════════════╝\n\n" RESET, 1);
+    
+    // Instructions or subtitle
+    slowPrint(GREEN "Please log in or create a new account to get started!\n", 20);
+    slowPrint(BLUE "Do you have an account? (y/n): ", 20);
     cin >> choice;
 
     if (choice == 'y' || choice == 'Y') {
@@ -76,27 +86,35 @@ int main() {
 
         switch (menuChoice) {
             case 1:
+                clearScreen();
                 addAsset(manager);
                 break;
             case 2:
+                clearScreen();
                 buySellAsset(manager, log);
                 break;
             case 3:
+                clearScreen();
                 viewPortfolio(manager);
                 break;
             case 4:
+                clearScreen();
                 manager.displayPortfolioGraph();  // Call the graphical representation method
                 break;
             case 5:
+                clearScreen();  
                 viewTransactionLog(log);
                 break;
             case 6:
+                clearScreen();
                 saveData(manager, log, fileManager, username);
                 break;
             case 7:
+                clearScreen();
                 loadData(manager, log, fileManager, username);
                 break;
             case 0:
+                clearScreen();
                 cout << "Exiting program and saving user data.\n";
                 saveData(manager, log, fileManager, username);
                 break;
@@ -108,6 +126,24 @@ int main() {
     return 0;
 }
 
+// Debugging feature
+bool debugMode = false;  // Global variable
+
+void printDebug(const std::string& message) {
+    if (debugMode) {
+        std::cout << "Debug: " << message << std::endl;
+    }
+}
+
+// VISUALISATION IMPROVEMENTS//
+// Function to clear the screen
+void clearScreen() {
+#ifdef _WIN32
+    system("cls");
+#else
+    system("clear");
+#endif
+}
 
 void slowPrint(const std::string& str, unsigned int millis_per_char) {
     for (const char c : str) {
