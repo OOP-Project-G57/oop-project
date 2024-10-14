@@ -1,44 +1,39 @@
-#pragma once
+#ifndef ASSET_H  // Prevents multiple inclusions of this header file
+#define ASSET_H
 
-#include <iostream>
-#include <string>
+#include <string>    // For std::string
+#include <iostream>  // For input/output operations
 
-using namespace std;
-
-// Asset class declaration
+// Base class representing a financial asset
 class Asset {
 protected:
-    // Private member variables
-    string name;
-    double price;
-    int quantity;
-    double purchasePrice;
+    std::string name;         // Name of the asset
+    double price;             // Current price of the asset
+    int quantity;             // Quantity held
+    double purchasePrice;     // Initial purchase price
 
 public:
-    // Constructor
-    Asset(string name, double price, int quantity);
+    // Constructor to initialize asset details
+    Asset(std::string name, double price, int quantity);
 
-    // Virtual methods for buying and selling assets
-    virtual void buy(int q, double p) = 0;
-    virtual void sell(int q, double p) = 0;
+    // Virtual functions to be implemented by derived classes
+    virtual void buy(int q, double p) = 0;   // Buy asset
+    virtual bool sell(int q, double p) = 0;  // Sell asset
 
-    // Calculate the current value of the asset
+    // Returns the total value of the asset (price * quantity)
     virtual double getValue() const;
 
-    // Display asset information
+    // Display asset details (prints to console)
     void display() const;
-    void display(ostream& out) const;
+    void display(std::ostream& out) const;  // Display to a specific output stream
 
-    // Getters for name and quantity
-    string getName();
-    int getQuantity();
-
-    // Calculate profit or loss
-    virtual double calculateProfitLoss() const;
-
-    // Get the current price
+    // Getters for asset attributes
+    std::string getName() const;
+    int getQuantity() const;
     double getPrice() const;
 
-    // Destructor
-    virtual ~Asset();
+    // Virtual destructor for cleanup
+    virtual ~Asset() {}
 };
+
+#endif  // End of include guard
