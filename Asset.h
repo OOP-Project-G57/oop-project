@@ -1,16 +1,7 @@
-/**
- * @brief Prevents multiple inclusions of this header file
- */
 #ifndef ASSET_H 
 #define ASSET_H
 
-/**
- * @brief For std::string
- */
 #include <string>
-/**
- * @brief For input/output operations
- */
 #include <iostream>
 
 /**
