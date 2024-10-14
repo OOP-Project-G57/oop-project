@@ -27,6 +27,9 @@ public:
     void display() const;
     void display(std::ostream& out) const;  // Display to a specific output stream
 
+    // Method to calculate profit or loss
+    virtual double calculateProfitLoss() const = 0;  // Pure virtual function
+
     // Getters for asset attributes
     std::string getName() const;
     int getQuantity() const;

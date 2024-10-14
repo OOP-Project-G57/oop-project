@@ -31,7 +31,7 @@ int main() {
     test(stock.getValue() == 1085.0, "Test 3: Value after Selling");  // 155 * 7
 
     // Test 4: Test profit/loss calculation
-    //test(stock.calculateProfitLoss() == (7 * (155.0 - 150.0)), "Test 4: Profit/Loss Calculation");
+    test(stock.calculateProfitLoss() == (7 * (155.0 - 150.0)), "Test 4: Profit/Loss Calculation");
 
     // Test 5: Display information (this will print to console)
     cout << "Displaying stock info:" << endl;

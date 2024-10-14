@@ -14,6 +14,13 @@ public:
 
     // Sell function to reduce quantity if available and update price
     bool sell(int quantity, double price) override;
+    
+    //Get value
+    double getValue() const override;
+
+    // Implement the calculateProfitLoss method
+    double calculateProfitLoss() const override; // Pure virtual function
+
 };
 
 #endif  // End of include guard

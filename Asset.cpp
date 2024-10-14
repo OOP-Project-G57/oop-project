@@ -35,3 +35,9 @@ int Asset::getQuantity() const {
 double Asset::getPrice() const {
     return price;
 }
+
+// Add this method to the Asset class
+double Asset::calculateProfitLoss() const {
+    // Profit or loss is calculated as (current value - original value)
+    return (quantity * price) - (quantity * purchasePrice);
+}
