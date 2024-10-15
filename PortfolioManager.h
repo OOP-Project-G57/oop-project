@@ -1,79 +1,110 @@
 #ifndef PORTFOLIOMANAGER_H
 #define PORTFOLIOMANAGER_H
 
-#include "Asset.h"
 #include <map>
 #include <string>
-#include <iostream>
+#include "Asset.h"
 
 /**
- * @class PortfolioManager
- * @brief Manages a portfolio of assets, including adding, removing, and calculating the total value.
+ * @brief Manages the portfolio of assets.
+ *
+ * PortfolioManager is responsible for managing assets in a portfolio.
+ * It provides methods to add, remove, and manipulate assets, as well as display
+ * information about the portfolio and calculate the total value of assets.
  */
 class PortfolioManager {
 private:
-    std::map<std::string, Asset*> portfolio;  // Stores assets using raw pointers
+    std::map<std::string, Asset*> portfolio;  ///< Map of asset names to Asset pointers
 
 public:
     /**
-     * @brief Destructor to free dynamically allocated memory for assets.
+     * @brief Destructor for the PortfolioManager.
+     * Cleans up dynamically allocated assets in the portfolio.
      */
     ~PortfolioManager();
 
     /**
-     * @brief Adds a new asset to the portfolio.
+     * @brief Adds an asset to the portfolio.
+     *
+     * Adds a new asset if it doesn't already exist in the portfolio.
      * 
-     * If the asset already exists, a message is displayed.
-     * @param asset Pointer to the asset to be added.
+     * @param asset Pointer to the asset being added.
      */
     void addAsset(Asset* asset);
 
     /**
      * @brief Removes an asset from the portfolio.
+     *
+     * Deletes the asset from memory and removes it from the portfolio.
      * 
-     * Frees the memory associated with the asset.
      * @param assetName Name of the asset to remove.
      */
     void removeAsset(std::string assetName);
 
     /**
      * @brief Gets the total value of all assets in the portfolio.
+     *
      * @return Total value of the portfolio.
      */
     double getTotalValue() const;
 
     /**
-     * @brief Buys more of an existing asset.
+     * @brief Buys more of a specified asset.
+     *
+     * Updates the asset with the new quantity and price.
      * 
-     * Updates the quantity and price of the asset.
-     * @param assetName Name of the asset.
+     * @param assetName Name of the asset to buy.
      * @param quantity Number of units to buy.
-     * @param price Price per unit.
+     * @param price Price per unit of the asset.
      */
     void buyAsset(const std::string& assetName, int quantity, double price);
 
     /**
-     * @brief Sells some quantity of an asset.
+     * @brief Sells a specified quantity of an asset.
+     *
+     * Updates the asset with the new quantity and price if available.
      * 
-     * Updates the quantity of the asset. If the asset doesn't exist, an error message is displayed.
-     * @param assetName Name of the asset.
+     * @param assetName Name of the asset to sell.
      * @param quantity Number of units to sell.
+     * @param price Price per unit of the asset.
      */
-    void sellAsset(const std::string& assetName, int quantity);
+    void sellAsset(const std::string& assetName, int quantity, double price);
 
     /**
-     * @brief Displays the portfolio with asset details.
-     * 
-     * @param out Output stream for displaying the portfolio.
+     * @brief Displays a bar graph of asset values in the portfolio.
      */
-    void displayPortfolio(std::ostream& out = std::cout) const;
+    void displayPortfolioGraph() const;
 
     /**
-     * @brief Calculates and displays profit/loss for each asset based on historical prices.
-     * 
-     * @param out Output stream for displaying profit/loss.
+     * @brief Clears the portfolio, freeing all allocated memory.
      */
-    void calculateProfitLoss(std::ostream& out);
+    void clearPortfolio();
+
+    /**
+     * @brief Gets the number of assets in the portfolio.
+     *
+     * @return Number of assets in the portfolio.
+     */
+    int getPortfolioSize() const;
+
+    /**
+     * @brief Displays all assets in the portfolio.
+     *
+     * @param out Output stream to display the portfolio.
+     */
+    void displayPortfolio(std::ostream& out) const;
+
+    /**
+     * @brief Displays the portfolio to standard output.
+     */
+    void displayPortfolio() const;
+
+    /**
+     * @brief Displays the profit/loss summary for the portfolio.
+     *
+     * @param out Output stream to display the profit/loss summary.
+     */
+    void displayProfitLossSummary(std::ostream& out) const;
 };
 
-#endif // PORTFOLIOMANAGER_H
+#endif
