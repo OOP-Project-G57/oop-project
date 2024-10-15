@@ -1,35 +1,39 @@
 #ifndef FILEMANAGER_H
 #define FILEMANAGER_H
 
-#include <string>
+#include <iostream>
+#include <fstream>
 #include "PortfolioManager.h"
 #include "Transaction.h"
+#include "debug.h"
 
 /**
- * @class FileManager
- * @brief Manages file operations for saving and loading portfolio and transactions.
+ * @brief Manages saving and loading portfolios and transaction logs.
  * 
- * This class provides methods to save a portfolio and transaction log to files
- * and to load them back into the respective objects.
+ * The FileManager class is responsible for handling file I/O for portfolio
+ * and transaction log data. It provides methods to save and load portfolios
+ * and transaction logs to/from files.
  */
 class FileManager {
 public:
     /**
-     * @brief Saves the current portfolio to a file.
+     * @brief Saves the portfolio to a file.
      * 
-     * Writes each asset's name, price, and quantity to the specified file.
+     * This method writes the details of each asset in the PortfolioManager
+     * to the specified file.
      * 
-     * @param manager The PortfolioManager object containing the portfolio.
-     * @param filename The name of the file to save the portfolio to.
+     * @param manager The PortfolioManager object containing assets.
+     * @param filename The name of the file to save the portfolio.
      */
     void savePortfolio(const PortfolioManager& manager, const std::string& filename);
 
     /**
-     * @brief Loads a portfolio from a file.
+     * @brief Loads the portfolio from a file.
      * 
-     * Reads asset details (name, price, quantity) from the file and adds them to the portfolio.
+     * This method reads the asset details from the specified file and adds
+     * them to the PortfolioManager object.
      * 
-     * @param manager The PortfolioManager object to load the portfolio into.
+     * @param manager The PortfolioManager object to load the assets into.
      * @param filename The name of the file to load the portfolio from.
      */
     void loadPortfolio(PortfolioManager& manager, const std::string& filename);
@@ -37,22 +41,25 @@ public:
     /**
      * @brief Saves the transaction log to a file.
      * 
-     * Writes the transaction log to the specified file.
+     * This method writes all the transaction details from the TransactionLog
+     * to the specified file.
      * 
-     * @param log The TransactionLog object containing the transaction history.
-     * @param filename The name of the file to save the transaction log to.
+     * @param log The TransactionLog object containing transactions.
+     * @param filename The name of the file to save the transaction log.
      */
     void saveTransactionLog(const TransactionLog& log, const std::string& filename);
 
     /**
      * @brief Loads the transaction log from a file.
      * 
-     * Reads transaction history from the file and displays it to the console (simulated loading).
+     * This method reads the transaction details from the specified file and
+     * adds them to the TransactionLog object.
      * 
-     * @param log The TransactionLog object to load the data into.
+     * @param log The TransactionLog object to load the transactions into.
      * @param filename The name of the file to load the transaction log from.
      */
     void loadTransactionLog(TransactionLog& log, const std::string& filename);
 };
 
-#endif // FILEMANAGER_H
+#endif
+

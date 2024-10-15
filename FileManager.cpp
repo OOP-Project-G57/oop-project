@@ -1,107 +1,91 @@
 #include "FileManager.h"
-#include <fstream>
 #include <iostream>
+#include <fstream>
+#include <sstream>
+#include "PortfolioManager.h"
+#include "Transaction.h"
+#include "debug.h"
 
 using namespace std;
 
-/**
- * @brief Saves the portfolio to a file.
- * 
- * Opens the file for writing. If successful, iterates through each asset in the
- * portfolio and writes the asset's name, price, and quantity to the file.
- * 
- * @param manager The PortfolioManager object containing assets.
- * @param filename The file where the portfolio will be saved.
- */
+// Saves the portfolio to the specified file
 void FileManager::savePortfolio(const PortfolioManager& manager, const string& filename) {
     ofstream file(filename);
-    
-    // Check if the file is successfully opened
-    if (file) {
-        // Iterate through the portfolio and save each asset
+    if (file.is_open()) {
         for (const auto& pair : manager.getPortfolio()) {
             const Asset* asset = pair.second;
+            // Write each asset's details to the file
             file << asset->getName() << " " << asset->getPrice() << " " << asset->getQuantity() << endl;
         }
+        file.close();
         cout << "Portfolio saved to " << filename << endl;
     } else {
-        cerr << "Error saving portfolio to " << filename << endl;
+        cout << "Error opening file for saving portfolio!" << endl;
     }
 }
 
-/**
- * @brief Loads the portfolio from a file.
- * 
- * Opens the file for reading. If successful, clears the existing portfolio and
- * loads each asset from the file by reading its name, price, and quantity.
- * 
- * @param manager The PortfolioManager object to load the portfolio into.
- * @param filename The file from which the portfolio will be loaded.
- */
+// Loads the portfolio from the specified file
 void FileManager::loadPortfolio(PortfolioManager& manager, const string& filename) {
     ifstream file(filename);
-    
-    // Check if the file is successfully opened
-    if (file) {
-        manager.clearPortfolio();  // Clear the existing portfolio
+    if (file.is_open()) {
+        cout << "Loading portfolio from " << filename << endl;
+
         string assetName;
         double price;
         int quantity;
-        
-        // Read each asset from the file and add it to the portfolio
+
+        // Clear existing portfolio before loading new data
+        manager.clearPortfolio();
+
+        // Read the asset details and add them to the PortfolioManager
         while (file >> assetName >> price >> quantity) {
-            manager.addAsset(new Stock(assetName, price, quantity));  // Assuming Stock for simplicity
+            printDebug("Read from file - Asset: " + assetName + ", Price: " + to_string(price) + ", Quantity: " + to_string(quantity));
+            manager.addAsset(new Stock(assetName, price, quantity));
         }
-        cout << "Portfolio loaded from " << filename << endl;
+
+        file.close();
+        cout << "Portfolio loaded successfully.\n";
+        printDebug("Portfolio size after loading: " + to_string(manager.getPortfolioSize()));
     } else {
-        cerr << "Error loading portfolio from " << filename << endl;
+        cout << "Error opening file for loading portfolio!\n";
     }
 }
 
-/**
- * @brief Saves the transaction log to a file.
- * 
- * Opens the file for writing. If successful, calls the displayLog method to
- * write the transaction log to the file.
- * 
- * @param log The TransactionLog object containing the transaction history.
- * @param filename The file where the transaction log will be saved.
- */
-void FileManager::saveTransactionLog(const TransactionLog& log, const string& filename) {
-    ofstream file(filename);
-    
-    // Check if the file is successfully opened
-    if (file) {
-        log.displayLog(file);  // Save the transaction log
-        cout << "Transaction log saved to " << filename << endl;
-    } else {
-        cerr << "Error saving transaction log to " << filename << endl;
-    }
-}
-
-/**
- * @brief Loads the transaction log from a file.
- * 
- * Opens the file for reading. If successful, reads each line of the transaction log
- * from the file and displays it to the console.
- * 
- * @param log The TransactionLog object to load the data into.
- * @param filename The file from which the transaction log will be loaded.
- */
+// Loads the transaction log from the specified file
 void FileManager::loadTransactionLog(TransactionLog& log, const string& filename) {
     ifstream file(filename);
-    
-    // Check if the file is successfully opened
-    if (file) {
-        string line;
-        
-        // Read and display each line from the transaction log
-        while (getline(file, line)) {
-            cout << line << endl;
+    if (file.is_open()) {
+        cout << "Loading transaction log from " << filename << endl;
+
+        string line, assetName, type, date;
+        int quantity;
+        double price;
+
+        log.clear();  // Clear the log before loading new data
+
+        // Skip the first two lines (headers)
+        getline(file, line);
+        getline(file, line);
+
+        // Read transaction details from the file and add them to the TransactionLog
+        while (file >> assetName >> type >> quantity >> price >> date) {
+            log.logTransaction(Transaction(assetName, type, quantity, price, date));
         }
-        cout << "Transaction log loaded from " << filename << endl;
+
+        file.close();
     } else {
-        cerr << "Error loading transaction log from " << filename << endl;
+        cout << "Error opening file for loading transaction log!" << endl;
     }
 }
 
+// Saves the transaction log to the specified file
+void FileManager::saveTransactionLog(const TransactionLog& log, const string& filename) {
+    ofstream file(filename, ios::trunc);  // Open file in trunc mode to overwrite existing content
+    if (file.is_open()) {
+        log.displayLog(file, false);  // Save log without color formatting
+        file.close();
+        cout << "Transaction log saved to " << filename << endl;
+    } else {
+        cout << "Error opening file for saving transaction log!" << endl;
+    }
+}
