@@ -1,20 +1,15 @@
-#include <iostream>
 #include "User.cpp"
 #include "Asset.cpp"
 #include "PortfolioManager.cpp"
 #include "Transaction.cpp"
 #include "FileManager.cpp"
 #include "debug.h"
+#include "colors.h"
+
 #include <chrono>
 #include <thread>
+#include <iostream>
 
-#define RESET   "\033[0m"
-#define RED     "\033[31m"
-#define GREEN   "\033[32m"
-#define YELLOW  "\033[33m"
-#define BLUE    "\033[34m"
-#define MAGENTA "\033[35m"
-#define CYAN    "\033[36m"
 
 using namespace std;
 
@@ -37,13 +32,13 @@ int main() {
     // User login or registration
    // ASCII Art for Title
     clearScreen();
-    slowPrint(CYAN "\n╔════════════════════════════════════════════════════════╗\n", 1);
-    slowPrint(CYAN "║          WELCOME TO THE FINANCIAL PORTFOLIO MANAGER    ║\n", 1);
-    slowPrint(CYAN "╚════════════════════════════════════════════════════════╝\n\n" RESET, 1);
+    slowPrint(CYAN "\n╔════════════════════════════════════════════════════════╗\n", 2);
+    slowPrint(CYAN "║          WELCOME TO THE FINANCIAL PORTFOLIO MANAGER    ║\n", 2);
+    slowPrint(CYAN "╚════════════════════════════════════════════════════════╝\n\n" RESET, 2);
     
     // Instructions or subtitle
-    slowPrint(GREEN "Please log in or create a new account to get started!\n", 20);
-    slowPrint(BLUE "Do you have an account? (y/n): ", 20);
+    slowPrint(GREEN "Please log in or create a new account to get started!\n", 2);
+    slowPrint(BLUE "Do you have an account? (y/n): ", 2);
     cin >> choice;
 
     if (choice == 'y' || choice == 'Y') {
@@ -115,8 +110,8 @@ int main() {
                 break;
             case 0:
                 clearScreen();
-                cout << "Exiting program and saving user data.\n";
-                saveData(manager, log, fileManager, username);
+                // cout << "Exiting program and saving user data.\n";
+                // saveData(manager, log, fileManager, username);
                 break;
             default:
                 cout << "Invalid option. Please try again." << endl;
@@ -127,7 +122,7 @@ int main() {
 }
 
 // Debugging feature
-bool debugMode = false;  // Global variable
+bool debugMode = true;  // Global variable
 
 void printDebug(const std::string& message) {
     if (debugMode) {
@@ -154,18 +149,18 @@ void slowPrint(const std::string& str, unsigned int millis_per_char) {
 
 void displayMenu() {
     unsigned int fastSpeed = 2; // Speed up the animation by reducing delay
-    slowPrint(BLUE "╔══════════════════════════════╗\n", fastSpeed);
-    slowPrint(CYAN "║       Portfolio Manager      ║\n", fastSpeed);
-    slowPrint(BLUE "╠══════════════════════════════╣\n", fastSpeed);
-    slowPrint(GREEN "║ 1. Add an Asset              ║\n", fastSpeed);
-    slowPrint(GREEN "║ 2. Buy/Sell an Asset         ║\n", fastSpeed);
-    slowPrint(GREEN "║ 3. View Portfolio            ║\n", fastSpeed);
-    slowPrint(GREEN "║ 4. View Portfolio Graph      ║\n", fastSpeed);
-    slowPrint(GREEN "║ 5. View Transaction Log      ║\n", fastSpeed);  // Added missing option
-    slowPrint(GREEN "║ 6. Save Portfolio            ║\n", fastSpeed);
-    slowPrint(GREEN "║ 7. Load Portfolio            ║\n", fastSpeed);
-    slowPrint(RED "║ 0. Exit                      ║\n", fastSpeed);
-    slowPrint(BLUE "╚══════════════════════════════╝\n", fastSpeed);
+    slowPrint(BLUE "╔═══════════════════════════════════════════════╗\n", fastSpeed);
+    slowPrint(CYAN "║                 Portfolio Manager             ║\n", fastSpeed);
+    slowPrint(BLUE "╠═══════════════════════════════════════════════╣\n", fastSpeed);
+    slowPrint(GREEN "║ 1. Add an Asset                               ║\n", fastSpeed);
+    slowPrint(GREEN "║ 2. Buy/Sell an Asset                          ║\n", fastSpeed);
+    slowPrint(GREEN "║ 3. View Portfolio                             ║\n", fastSpeed);
+    slowPrint(GREEN "║ 4. View Portfolio Graph                       ║\n", fastSpeed);
+    slowPrint(GREEN "║ 5. View Transaction Log                       ║\n", fastSpeed);  // Added missing option
+    slowPrint(GREEN "║ 6. Save Portfolio & TransactionLog            ║\n", fastSpeed);
+    slowPrint(GREEN "║ 7. Load Portfolio & TransactionLog            ║\n", fastSpeed);
+    slowPrint(RED "║ 0. Exit                                       ║\n", fastSpeed);
+    slowPrint(BLUE "╚═══════════════════════════════════════════════╝\n", fastSpeed);
     std::cout << RESET;
 }
 
@@ -253,7 +248,7 @@ void viewPortfolio(PortfolioManager& manager) {
 
 // Function to view the transaction log
 void viewTransactionLog(TransactionLog& log) {
-    log.displayLog();
+    log.displayLog(cout, true);
 }
 
 // Function to display a progress bar
@@ -276,7 +271,8 @@ void saveData(PortfolioManager& manager, TransactionLog& log, FileManager& fileM
 
     showProgressBar("Saving Transaction Log");  // Display progress bar for saving transaction log
     fileManager.saveTransactionLog(log, transactionFile);
-
+    
+    cout<<endl;
     std::cout << "Data saved successfully." << std::endl;
 }
 
