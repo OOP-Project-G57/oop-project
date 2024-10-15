@@ -1,0 +1,4 @@
+Transaction Log
+Asset     Type      Quantity  Price     Date           
+Tesla     sell      2         2         2000-10-10     
+Tesla     buy       2         20        2000-10-10     

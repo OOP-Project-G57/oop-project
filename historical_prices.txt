@@ -1,0 +1,4 @@
+Tesla 30
+Apple 150
+Bitcoin 40
+Bond 100
