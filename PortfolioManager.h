@@ -18,6 +18,13 @@ private:
 
 public:
     /**
+     * @brief Gets the portfolio map as a constant reference.
+     * 
+     * @return Constant reference to the portfolio map.
+     */
+    const std::map<std::string, Asset*>& getPortfolio() const;
+
+    /**
      * @brief Destructor for the PortfolioManager.
      * Cleans up dynamically allocated assets in the portfolio.
      */
@@ -108,3 +115,4 @@ public:
 };
 
 #endif
+

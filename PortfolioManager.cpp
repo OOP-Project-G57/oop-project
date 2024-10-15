@@ -9,6 +9,10 @@
 
 using namespace std;
 
+const map<string, Asset*>& PortfolioManager::getPortfolio() const {
+    return portfolio;
+}
+
 // Destructor to clean up dynamically allocated assets
 PortfolioManager::~PortfolioManager() {
     for (auto& pair : portfolio) {
